@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Compra Coletiva</title>
+    <!-- HTMX via CDN -->
+    <script src="/js/htmx.min.js"></script>
+    <style>
+        .error { color: red; font-size: 0.875rem; }
+        .success { color: green; padding: 1rem; background: #d4edda; }
+        .loading { opacity: 0.5; }
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator { display: inline; }
+        .htmx-request.loading { opacity: 0.5; }
+    </style>
+</head>
+<body>
+<div th:replace="${content}">Conteúdo aqui</div>
+</body>
+</html>

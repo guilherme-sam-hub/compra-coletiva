@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esqueci minha senha - Compra Coletiva</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #333; font-size: 26px; margin-bottom: 8px; }
+        .header p { color: #666; font-size: 14px; line-height: 1.5; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; color: #555;
+            font-weight: 600; margin-bottom: 8px; font-size: 14px;
+        }
+        .form-group input {
+            width: 100%; padding: 12px 16px;
+            border: 2px solid #e0e0e0; border-radius: 8px;
+            font-size: 15px; transition: border-color 0.3s;
+        }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+
+        .btn {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+
+        .alert {
+            padding: 12px 16px; border-radius: 8px;
+            margin-bottom: 20px; font-size: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .alert-error { background: #fee; color: #c33; border: 1px solid #fcc; }
+        .alert-success { background: #efe; color: #3c3; border: 1px solid #cfc; }
+
+        .links {
+            text-align: center; margin-top: 24px; font-size: 14px;
+        }
+        .links a {
+            color: #667eea; text-decoration: none; font-weight: 600;
+        }
+        .links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🔑 Esqueci minha senha</h1>
+        <p>Informe seu email e enviaremos um link para redefinir sua senha.</p>
+    </div>
+
+    <div th:if="${erro}" class="alert alert-error">
+        <span>⚠️</span> <span th:text="${erro}"></span>
+    </div>
+    <div th:if="${sucesso}" class="alert alert-success">
+        <span>✅</span> <span th:text="${sucesso}"></span>
+    </div>
+
+    <form th:action="@{/esqueci-senha}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="form-group">
+            <label for="email">Email cadastrado</label>
+            <input type="email" id="email" name="email"
+                   th:value="${email}"
+                   placeholder="seu@email.com" required autofocus>
+        </div>
+
+        <button type="submit" class="btn">Enviar link de redefinição</button>
+    </form>
+
+    <div class="links">
+        <a href="/login">← Voltar para o login</a>
+    </div>
+</div>
+</body>
+</html>

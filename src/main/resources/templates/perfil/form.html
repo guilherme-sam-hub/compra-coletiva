@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar perfil</title>
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center; padding: 20px;
+
+    }
+
+    .user-name {
+      color: #ffffff !important;
+      font-weight: 500;
+      opacity: 0.95;
+      padding: 0 8px;
+    }
+
+    .btn-sair {
+      background: rgba(255, 255, 255, 0.22) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-sair:hover {
+      background: #ffffff !important;
+      color: #764ba2 !important;
+    }
+
+    .container {
+      background: white; border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 100%; max-width: 500px; padding: 40px;
+    }
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h1 { color: #333; font-size: 24px; margin-bottom: 8px; }
+    .header p { color: #666; font-size: 14px; }
+
+    .info-box {
+      background: #f9fafb; border-radius: 8px;
+      padding: 1rem; margin-bottom: 1.5rem;
+      font-size: 0.9rem; color: #555;
+    }
+    .info-box strong { color: #333; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; color: #555;
+      font-weight: 600; margin-bottom: 8px; font-size: 14px;
+    }
+    .form-group input {
+      width: 100%; padding: 12px 16px;
+      border: 2px solid #e0e0e0; border-radius: 8px;
+      font-size: 15px; transition: border-color 0.3s;
+    }
+    .form-group input:focus { outline: none; border-color: #667eea; }
+    .form-group input.error { border-color: #e74c3c; }
+    .error-message { color: #e74c3c; font-size: 13px; margin-top: 6px; }
+    .hint { font-size: 12px; color: #999; margin-top: 4px; }
+
+    .btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; border-radius: 8px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .back {
+      display: block; text-align: center; margin-top: 16px;
+      color: #667eea; text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>✏️ Editar meus dados</h1>
+    <p>Atualize suas informações pessoais</p>
+  </div>
+
+  <div class="info-box">
+    <div><strong>CPF:</strong> <span th:text="${usuarioInfo.cpf}">000</span></div>
+    <div style="margin-top: 4px; font-size: 12px; color: #999;">
+      O CPF não pode ser alterado.
+    </div>
+  </div>
+
+  <form th:action="@{/perfil/editar}" th:object="${usuario}" method="post">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" th:field="*{nome}"
+             th:classappend="${#fields.hasErrors('nome')} ? 'error'"
+             required>
+      <div th:if="${#fields.hasErrors('nome')}" class="error-message"
+           th:errors="*{nome}"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" th:field="*{email}"
+             th:classappend="${#fields.hasErrors('email')} ? 'error'"
+             required>
+      <div th:if="${#fields.hasErrors('email')}" class="error-message"
+           th:errors="*{email}"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="senha">Nova senha (opcional)</label>
+      <input type="password" id="senha" th:field="*{senha}"
+             placeholder="Deixe em branco para manter">
+      <div class="hint">Mínimo 6 caracteres se for alterar.</div>
+    </div>
+
+    <button type="submit" class="btn">Salvar alterações</button>
+  </form>
+
+  <a th:href="@{/perfil}" class="back">← Voltar para o perfil</a>
+</div>
+</body>
+</html>
